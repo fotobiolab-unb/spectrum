@@ -1,5 +1,5 @@
 // ****************************** Sensor pH *******************************
-#include <AtlasPH_ReatorNovo.h>
+#include <AtlasPH_Spectrum.h>
 #include <SoftwareSerial.h>
 
 const byte RXPin = 52;
@@ -51,8 +51,6 @@ void aguardarComando(){
   while (Serial.available() > 0) { Serial.read();}  
 }
 
-
-
 void calibrarPH(){
 
   String inputstring = "";                              //a string to hold incoming data from the PC
@@ -69,35 +67,21 @@ void calibrarPH(){
   aguardarComando();
   if (inputString == "q") {
     Serial.println("-> cal,mid,7");
-    
-        sSerial.print("c,1");
-        sSerial.print('\r'); 
-        sSerial.print("l,1");
-        sSerial.print('\r'); 
- //   sSerial.print("cal,mid,7");
- //   sSerial.print('\r'); 
+    SondaPH.calPH7();
   }
 
   Serial.println("-> Insira a sonda na solucao de referencia pH 4. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
   aguardarComando();
   if (inputString == "q") {
-sSerial.print("c,0");
-    sSerial.print('\r'); 
-
-    sSerial.print("l,0");
-    sSerial.print('\r'); 
-    
-    Serial.println("-> cal,mid,4");
-    sSerial.print("cal,mid,4");
-    sSerial.print('\r'); 
+    Serial.println("-> cal,low,4");
+    SondaPH.calPH4();
   }
 
   Serial.println("-> Insira a sonda na solucao de referencia pH 10. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
   aguardarComando();
   if (inputString == "q") {
-    Serial.println("-> cal,mid,10");
-    sSerial.print("cal,mid,10");
-    sSerial.print('\r'); 
+    Serial.println("-> cal,high,10");
+    SondaPH.calPH10();
   }
 
   Serial.println(SondaPH.getPHValue()); delay(1000);  

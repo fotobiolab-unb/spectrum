@@ -70,6 +70,8 @@ void iniciarLVP(){
   lvp.addFunction("dados", &adquirirDados);
   lvp.addParameter("modo", &ModoDeOperacao);
   lvp.addFunction("config", &alterarParametros);
+  lvp.addFunction("ping", &ping);
+  lvp.addFunction("cabecalho",&imprimirColunas);
 
 //Sensor 2+1
   lvp.addParameter("ganho", &ganhoTSL, ganhoTSL);
@@ -79,6 +81,15 @@ void iniciarLVP(){
 
   lvp.addFunction("calph", calibrarPH);
 
+  
+  lvp.addParameter("modoco2", &ModoCO2);
+  lvp.addParameter("co2", &SetCO2);
+  lvp.addFunction("co2on", CO2On);
+  lvp.addFunction("co2off", CO2Off);
+  lvp.addParameter("co2ref", &CO2Ref);      // valor usado na calibracao do co2
+  lvp.addFunction("calco2", calibrarCO2);
+  lvp.addParameter("dtco2", &dtCO2);
+
 // *********** Modo componentes: ***************
 
   lvp.addFunction("inv", &inverterPelt);
@@ -86,7 +97,9 @@ void iniciarLVP(){
 
   lvp.addParameter("dil", &DilPwm, DilPwm);
   lvp.addParameter("dilDt", &dilDt, dilDt);
-  lvp.addFunction("diluir", diluir2);
+  lvp.addFunction("diluir", diluir2); 
+  lvp.addParameter("in", &Valor[10]);
+  lvp.addParameter("out", &Valor[11]);
 
 } 
 

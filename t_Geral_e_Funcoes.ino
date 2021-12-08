@@ -31,6 +31,7 @@ void ligarAtuadores(){
 }
 
 void imprimirDados(){
+  Serial.print(ID); Serial.print(" ");
   imprimirTempo();
   imprimirMotores();
   imprimirPainel();
@@ -38,6 +39,7 @@ void imprimirDados(){
   imprimirDensidade();
   imprimirDiluicao();
   imprimirPH();
+  imprimirGas();
   Serial.println();
 }
 
@@ -45,12 +47,12 @@ void lerSensores(){
   medirTemperatura();
   lerPH();    // inserir a correção de temperatura
   medirDensidade();
+  lerGas();
   if (ModoDeOperacao == 2) imprimirDados();
 }
 
-void imprimirCabecalho(){
-  Serial.print("Spectrum, Versao "); Serial.println(Versao);
-  Serial.print("Reator: "); Serial.println(ID);
+void imprimirColunas(){
+  Serial.print("ID ");
   CabecalhoTempo();
   CabecalhoMotores();
   CabecalhoPainel();
@@ -58,6 +60,14 @@ void imprimirCabecalho(){
   CabecalhoDensidade();
   CabecalhoDiluicao();  
   CabecalhoPH();
+  CabecalhoGas();
+}
+
+void imprimirCabecalho(){
+  Serial.print("Spectrum, Versao "); Serial.println(Versao);
+  //  Serial.print("Reator: "); Serial.println(ID);
+  //Serial.print("ID ");
+  imprimirColunas();
   Serial.println();
 }
 
@@ -186,4 +196,8 @@ void pararDiluicao(){
   diluindo = false;
 }
 
+void ping(){
+  /*Returns ID*/
+  Serial.print(ID);
+}
 

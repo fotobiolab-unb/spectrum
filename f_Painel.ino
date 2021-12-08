@@ -100,7 +100,7 @@ void imprimirPainel(){
   Serial.print(ModoCor); Serial.print(" ");
   Serial.print(ModoBrilho); Serial.print(" ");
   for (byte i = 0; i <= 9; i++){
-    Serial.print(Valor[i]); Serial.print(" ");  
+    Serial.print(Valor[i]); Serial.print(" ");
   }
 }
 

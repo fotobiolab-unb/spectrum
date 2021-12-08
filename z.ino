@@ -1,18 +1,20 @@
 void setup(){
-  delay(10000);
+  //delay(10000);
   iniciarLVP();
   iniciarTempo();
   iniciarServo();
   iniciarPeltier();
   iniciarSensor();
   iniciarPH();
+  iniciarGas();
   imprimirCabecalho();
 }
 
 void loop(){
   ajustarAtuadores();
+  if (ID == 2) ajustarCO2();
  
-  if (ModoDeOperacao == 0){                         // leituras apenas quando solicitadas
+  if (ModoDeOperacao == 0){                           // leituras apenas quando solicitadas
     verificarHora();   
   }
 
@@ -27,5 +29,6 @@ void loop(){
     ajustarLEDs(); 
     if(diluindo && (TempoTranscorrido - InicioDil >= dilDt)) pararDiluicao();
   }
+  delay(1000);
 }
 
