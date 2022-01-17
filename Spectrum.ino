@@ -63,7 +63,7 @@ config TSL
  */
 
 byte Versao = 0;
-byte ID = 7;
+byte ID = 2;
 
 byte ModoDeOperacao = 0; // 0 para leituras apenas quando solicitadas; 1 para leituras automaticas dentro do dt; 2 para o modo "componentes"
 

@@ -1,10 +1,6 @@
-ARD="/dev/ttyACM0
-/dev/ttyUSB0
-/dev/ttyUSB1
-/dev/ttyUSB2
-/dev/ttyUSB3
-/dev/ttyUSB4
-/dev/ttyUSB5"
+echo "$(sort -k2 -n port_order.txt)" > port_order.txt
+
+ARD=$(awk -F '\t' '{print $1}' port_order.txt)
 
 i=0
 
