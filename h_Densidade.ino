@@ -101,7 +101,7 @@ void medirDensidade(){
     Vis_R = tsl.getLuminosity(TSL2591_VISIBLE);
     Vis_B = tsl.getLuminosity(TSL2591_VISIBLE);
     Vis_IR = tsl.getLuminosity(TSL2591_VISIBLE);
-    DensidadeAtual = (68.10010*exp(-Vis_IR/341.86234) + 7.56218*exp(-Vis_IR/6009.17417) - 0.60030)*1E6;
+    DensidadeAtual = 0;
   }
 
   else {
@@ -128,7 +128,7 @@ void medirDensidade(){
     //IR_IR = tsl.getLuminosity(TSL2591_INFRARED);
     digitalWrite(IRPin, LOW); 
 
-DensidadeAtual = (68.10010*exp(-Vis_IR/341.86234) + 7.56218*exp(-Vis_IR/6009.17417) - 0.60030)*1E6;
+/*#*/DensidadeAtual = (70.45496*exp(-Vis_IR/355.07195) + 7.83826*exp(-Vis_IR/5570.96923) - 0.49460)*1E6;
  
   }
 }

@@ -11,7 +11,7 @@ do
     sed -i "s/ID = .*;/ID = $i;/" Spectrum.ino
     densidade=$(sed "${i}q;d" densidades.txt)
     echo "${densidade}"
-    sed -i "s@DensidadeAtual = .*;@DensidadeAtual = ${densidade}@" h_Densidade.ino
+    sed -i "s@/\*#\*/DensidadeAtual = .*;@/\*#\*/DensidadeAtual = ${densidade}@" h_Densidade.ino
     arduino-cli compile --fqbn arduino:avr:mega Spectrum
     arduino-cli upload --verbose -t -p $ard --fqbn arduino:avr:mega Spectrum
 done
