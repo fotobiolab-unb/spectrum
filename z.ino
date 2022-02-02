@@ -12,7 +12,7 @@ void setup(){
 
 void loop(){
   ajustarAtuadores();
-  if (ID == 2) ajustarCO2();
+  if (ID == 4) ajustarCO2();
  
   if (ModoDeOperacao == 0){                           // leituras apenas quando solicitadas
     verificarHora();   

@@ -65,8 +65,8 @@ void imprimirColunas(){
 
 void imprimirCabecalho(){
   Serial.print("Spectrum, Versao "); Serial.println(Versao);
-  //  Serial.print("Reator: "); Serial.println(ID);
-  //Serial.print("ID ");
+  Serial.print("Reator: "); Serial.println(ID);
+  Serial.print("ID ");
   imprimirColunas();
   Serial.println();
 }

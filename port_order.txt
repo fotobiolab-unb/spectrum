@@ -1,7 +1,7 @@
-/dev/ttyACM0	1
-/dev/ttyUSB2	2
-/dev/ttyUSB3	3
-/dev/ttyUSB5	4
-/dev/ttyUSB0	5
-/dev/ttyUSB1	6
-/dev/ttyUSB4	7
+/dev/ttyUSB2	1
+/dev/ttyUSB11	2
+/dev/ttyUSB0	3
+/dev/ttyUSB1	4
+/dev/ttyUSB7	5
+/dev/ttyUSB8	6
+/dev/ttyUSB10	7

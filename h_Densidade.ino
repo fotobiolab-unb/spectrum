@@ -127,7 +127,7 @@ void medirDensidade(){
     Vis_IR = tsl.getLuminosity(TSL2591_VISIBLE);
     //IR_IR = tsl.getLuminosity(TSL2591_INFRARED);
     digitalWrite(IRPin, LOW); 
-
+ 
 /*#*/DensidadeAtual = (70.45496*exp(-Vis_IR/355.07195) + 7.83826*exp(-Vis_IR/5570.96923) - 0.49460)*1E6;
  
   }
