@@ -19,11 +19,6 @@ void iniciarLVP(){
   lvp.addParameter("ano", &Ano0);                 //  *
   lvp.addFunction("horacerta", &ajustarRelogio);  // ***
 
-// Densidade 3+0
-  lvp.addParameter("r", &RedPwm);
-  lvp.addParameter("b", &BluePwm);
-  lvp.addParameter("ir", &IRPwm);
-
 // Motores 2+0
   lvp.addParameter("ar", &Valor[12]);
   lvp.addParameter("ima", &Valor[13]);
@@ -48,22 +43,28 @@ void iniciarLVP(){
   lvp.addParameter("660", &MaxManual[8]);
   lvp.addParameter("684", &MaxManual[9]);
 
-// Temperatura 2+0
+// Temperatura 4+1
   lvp.addParameter("modotemp", &ModoTemp);
   lvp.addParameter("temp", &TempDesejada);
-
   lvp.addParameter("vent", &Valor[14], Valor[14]); // componentes
   lvp.addParameter("pelt", &Valor[15], Valor[15]); // componentes
+  lvp.addFunction("inv", &inverterPelt);           // componentes
 
-// Diluicao 4+2
+// Densidade 9+3
+  lvp.addParameter("r", &RedPwm);
+  lvp.addParameter("b", &BluePwm);
+  lvp.addParameter("ir", &IRPwm);
   lvp.addParameter("densidade", &DensidadeDesejada);
   lvp.addParameter("mododil", &ModoDiluicao);
   lvp.addParameter("dil", &ValorDiluicao);              // ***
   lvp.addParameter("dildt", &DiluicaoManual);
   lvp.addFunction("diluir", &diluirManualmente);
   lvp.addFunction("drenar", &drenar); 
+  lvp.addFunction("gotod", &gotoDensity);
+  lvp.addParameter("in", &Valor[10]);   // componentes
+  lvp.addParameter("out", &Valor[11]);  // componentes
 
-//Geral 1+5
+//Geral 1+8
   lvp.addFunction("fim", &desligarTudo);  
   lvp.addFunction("iniciar", &iniciarExperimento);
   lvp.addFunction("curva", &curvaLEDs);
@@ -72,40 +73,25 @@ void iniciarLVP(){
   lvp.addFunction("config", &alterarParametros);
   lvp.addFunction("ping", &ping);
   lvp.addFunction("cabecalho",&imprimirColunas);
+  lvp.addFunction("dados", lerSensores);
 
 //Sensor 2+1
   lvp.addParameter("ganho", &ganhoTSL, ganhoTSL);
   lvp.addParameter("ti", &itTSL, itTSL);
   lvp.addFunction("sensor", configurarSensor);
 
-
   lvp.addFunction("calph", calibrarPH);
 
-  
+// CO2 3+3  
   lvp.addParameter("modoco2", &ModoCO2);
   lvp.addParameter("co2", &SetCO2);
   lvp.addFunction("co2on", CO2On);
   lvp.addFunction("co2off", CO2Off);
   lvp.addParameter("co2ref", &CO2Ref);      // valor usado na calibracao do co2
   lvp.addFunction("calco2", calibrarCO2);
-  lvp.addParameter("dtco2", &dtCO2);
-
-// *********** Modo componentes: ***************
-
-  lvp.addFunction("inv", &inverterPelt);
-  lvp.addFunction("dados", lerSensores);
-
-  lvp.addParameter("dil", &DilPwm, DilPwm);
-  lvp.addParameter("dilDt", &dilDt, dilDt);
-  lvp.addFunction("diluir", diluir2); 
-  lvp.addParameter("in", &Valor[10]);
-  lvp.addParameter("out", &Valor[11]);
 
 } 
 
 void serialEvent(){ 
   lvp.getNewCommand();
 } 
-
-
-

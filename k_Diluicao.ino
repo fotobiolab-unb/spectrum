@@ -1,7 +1,7 @@
 float DensidadeDesejada = 999999999; // ***********************
 
 byte ModoDiluicao = 0; // 0: densidade livre; 1: densidade constante
-double DiluicaoMaxima = 30000; // (em ms) ****************** escolher um valor adequado (e atentar para o tipo de variavel) **************
+double DiluicaoMaxima = 20000; // (em ms) ****************** escolher um valor adequado (e atentar para o tipo de variavel) **************
 long DiluicaoTotal = 0;
 byte ValorDiluicao = 60; // ******** escolher ********
 byte DiluicaoManual = 0; // em segundos
@@ -22,10 +22,10 @@ void removerAlgas(long tempo){
 
 void diluir(){
   // IRDesejado = // ajustar f(DensidadeDesejada)
-  if ( (ModoDiluicao == 1) && (DensidadeAtual > DensidadeDesejada) ){
+  if ((ModoDiluicao == 1) && (DensidadeAtual > DensidadeDesejada)) {
     pwmDil = map(ValorDiluicao,0,100,0,4095);
     //TempoDiluicao = (DensidadeAtual/DensidadeDesejada - 1) * 310000;             // VolumeDoReator/VazaoDaBombaDeDiluicao = 100mL/(10mL/31s)
-    TempoDiluicao = (DensidadeAtual/DensidadeDesejada - 1) * 320000;
+    TempoDiluicao = (DensidadeAtual/DensidadeDesejada - 1) * 100000;
     if (TempoDiluicao > DiluicaoMaxima) TempoDiluicao = DiluicaoMaxima;
     
     adicionarMeio(TempoDiluicao); 
@@ -36,6 +36,30 @@ void diluir(){
     
     DiluicaoTotal += TempoDiluicao;    
   }
+}
+
+void gotoDensity(){
+  byte j=0;
+  pararAtuadores();
+  medirDensidade();
+
+  int pwm = map(Valor[13],0,100,0,4095);  // Liga o agitador magnético
+  ServoDriver.setPWM(Canal[13],0,pwm);    //
+
+  ModoDiluicao = 1;
+  
+  while ( (DensidadeAtual > DensidadeDesejada) && (j < 5) ){
+    diluir();
+    delay(3000);
+    medirDensidade();
+    j+=1;
+  }
+  ligarAtuadores();
+
+  ModoDiluicao = 0;
+  
+  //Serial.print("-> Densidade"); Serial.print(ID); Serial.print(": "); Serial.println(DensidadeAtual);
+  Serial.print("{");Serial.print("\"ID\":");Serial.print(ID);Serial.print(",");Serial.print("\"densidade\":");Serial.print(DensidadeAtual);Serial.println("}");
 }
 
 void drenar(){
@@ -67,4 +91,3 @@ void diluirManualmente(){
   removerAlgas(2*TempoDiluicao); 
   DiluicaoTotal += TempoDiluicao; 
 }
-

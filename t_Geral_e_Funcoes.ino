@@ -168,36 +168,7 @@ void alterarParametros(){     // esta funcao pode ser chamada via lvp para dar i
   ModoDeOperacao = 0;  
 }
 
-// ***************** Modo componentes: **************************
-
-boolean diluindo = false;
-byte DilPwm = 0;
-int InicioDil = 0;
-int dilDt = 0;
-
-void diluir2(){   
-  Motor3pwm = DilPwm;
-  Motor4pwm = DilPwm;
-  
-  byte pwm = map(DilPwm, 0, 100, 0, 4095);
-  
-  ServoDriver.setPWM(7,0,pwm);
-  ServoDriver.setPWM(5,0,pwm);
-
-  InicioDil = millis()/1000;
-  diluindo = true;
-}
-
-void pararDiluicao(){
-  Motor3pwm = 0;
-  Motor4pwm = 0;  
-  ServoDriver.setPWM(7,0,0);
-  ServoDriver.setPWM(5,0,0);
-  diluindo = false;
-}
-
 void ping(){
   /*Returns ID*/
   Serial.print(ID);
 }
-

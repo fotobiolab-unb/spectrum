@@ -1,6 +1,6 @@
 // ************ Termometro ************
 
-#include<DS18S20.h>
+#include <DS18S20.h>
 
 const byte TermoPin = 2;
 
@@ -12,7 +12,6 @@ float TempDesejada = 25; // ************
 void medirTemperatura(){
   Temp = termo.getTemp();
 }
-
 
 // ************ Ponte H ************
 
@@ -26,12 +25,12 @@ String EstadoPeltier;
 float Corrente = 0;
 boolean SentidoPelt = false;
 
-byte Cp = 100; 
+byte Cp = 100;    
 float Ci = 0.003;
 float Cd = 0;
 float Int = 0;
 
-byte ModoTemp = 0;  // 0: controle desligado; 1: temp = const; 2: controle manual do peltier
+byte ModoTemp = 0;  // 0: controle desligado; 1: temp = const; 2: controle manual do peltier (no modo componentes, os peltiers iniciam aquecendo)
 int ResfMax = 100;
 int AqMax = 50;
 int PeltPWM = 0;
@@ -113,9 +112,6 @@ void imprimirPeltier(){
   Serial.print(Valor[15]); Serial.print(" ");
   Serial.print(Int); Serial.print(" ");
   Serial.print(ModoTemp); Serial.print(" ");
-  Serial.print(Cp); Serial.print(" ");
-  Serial.print(Ci,3); Serial.print(" ");
-  Serial.print(Cd,1); Serial.print(" ");
   Serial.print(EstadoPeltier); Serial.print(" ");
 }
 
@@ -125,9 +121,6 @@ void CabecalhoPeltier(){
   Serial.print("ValorPeltier ");
   Serial.print("Int ");
   Serial.print("ModoTemp ");
-  Serial.print("Cp ");
-  Serial.print("Ci ");
-  Serial.print("Cd ");
   Serial.print("EstadoPeltier ");  
 }
 

@@ -1,0 +1,10 @@
+Time
+DS1307
+Wire
+Adafruit_PWMServoDriver
+DS18S20
+Wire
+Adafruit_Sensor
+AtlasPH_Spectrum
+SoftwareSerial
+LVP

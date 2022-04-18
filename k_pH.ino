@@ -52,42 +52,30 @@ void aguardarComando(){
 }
 
 void calibrarPH(){
-
-  String inputstring = "";                              //a string to hold incoming data from the PC
-  String sensorstring = "";                             //a string to hold the data from the Atlas Scientific product
-  boolean input_string_complete = false;                //have we received all the data from the PC
-  boolean sensor_string_complete = false;               //have we received all the data from the Atlas Scientific product
-
-  inputstring.reserve(10);                            //set aside some bytes for receiving data from the PC
-  sensorstring.reserve(30);                           //set aside some bytes for receiving data from Atlas Scientific product 
-
   Serial.println("-> Calibracao do sensor de pH iniciada.");
-  
   Serial.println("-> Insira a sonda na solucao de referencia pH 7. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
+  Serial.println("-> (Para interromper a calibração pressione qualquer outra tecla)");  
   aguardarComando();
   if (inputString == "q") {
     Serial.println("-> cal,mid,7");
     SondaPH.calPH7();
+    Serial.println("-> Insira a sonda na solucao de referencia pH 4. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
+    Serial.println("-> (Para interromper a calibração pressione qualquer outra tecla)");  
+    aguardarComando();
+    if (inputString == "q") {
+      Serial.println("-> cal,low,4");
+      SondaPH.calPH4();
+      Serial.println("-> Insira a sonda na solucao de referencia pH 10. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
+      Serial.println("-> (Para interromper a calibração pressione qualquer outra tecla)");  
+      aguardarComando();
+      if (inputString == "q") {
+        Serial.println("-> cal,high,10");
+        SondaPH.calPH10();
+      }  
+    }
+    Serial.println(SondaPH.getPHValue()); delay(1000);  
+    Serial.println(SondaPH.getPHValue()); delay(1000);
+    Serial.println(SondaPH.getPHValue()); delay(1000);
   }
-
-  Serial.println("-> Insira a sonda na solucao de referencia pH 4. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
-  aguardarComando();
-  if (inputString == "q") {
-    Serial.println("-> cal,low,4");
-    SondaPH.calPH4();
-  }
-
-  Serial.println("-> Insira a sonda na solucao de referencia pH 10. Quando as leituras se estabilizarem digite 'q' e pressione 'enter'.");
-  aguardarComando();
-  if (inputString == "q") {
-    Serial.println("-> cal,high,10");
-    SondaPH.calPH10();
-  }
-
-  Serial.println(SondaPH.getPHValue()); delay(1000);  
-  Serial.println(SondaPH.getPHValue()); delay(1000);
-  Serial.println(SondaPH.getPHValue()); delay(1000);
   Serial.println("-> Calibracao concluida");
-  
 }
-

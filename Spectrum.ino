@@ -15,55 +15,9 @@
  *  ok - incluir m1 e m2 no lvp no modo componentes
  *  - definir como serão os modos da diluição
 ----------------------------------------
+*/
 
-imprimir: 
-
-elapsed time
-data
-hora
-id
-
-temp
-ph
-co2
-densidade
-
-LEDs (x10, 0-100)
-brilho
-cor (string?)
-modoBrilho
-
-setTemp
-pwmPelt
-estado
-modo
-
-pwmLEDs (x3)
-luminosidade (x3, só no visivel) 
-
-densidade desejada
-modoDiluicao
-diluicaoTotal
-pwms
-
-SetCO2
-ModoGas
-
-Compressor
-Ventoinha
-Agitador
-
-modoGeral
-
------
-cabeçalho (incluir no LVP):
-parametros pid
-config TSL
-
- * 
- */
-
-byte Versao = 0;
+byte Versao = 1;
 byte ID = 7;
 
 byte ModoDeOperacao = 0; // 0 para leituras apenas quando solicitadas; 1 para leituras automaticas dentro do dt; 2 para o modo "componentes"

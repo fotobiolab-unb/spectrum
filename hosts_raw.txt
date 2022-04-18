@@ -1,0 +1,20 @@
+# Nmap 7.80 scan initiated Tue Apr 12 16:47:10 2022 as: nmap -v0 -oG hosts_raw.txt --open --script http-methods -p 5000 --script-args http-methods.url-path=/ping 192.168.1.1/24
+Host: 192.168.1.101 (raspberry5)	Status: Up
+Host: 192.168.1.101 (raspberry5)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.107 (raspberry2)	Status: Up
+Host: 192.168.1.107 (raspberry2)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.108 (raspberry6)	Status: Up
+Host: 192.168.1.108 (raspberry6)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.109 (raspberry3)	Status: Up
+Host: 192.168.1.109 (raspberry3)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.112 (raspberry4)	Status: Up
+Host: 192.168.1.112 (raspberry4)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.113 (raspberry7)	Status: Up
+Host: 192.168.1.113 (raspberry7)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.115 (raspberry1)	Status: Up
+Host: 192.168.1.115 (raspberry1)	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.117 ()	Status: Up
+Host: 192.168.1.117 ()	Ports: 5000/open/tcp//upnp///
+Host: 192.168.1.118 ()	Status: Up
+Host: 192.168.1.118 ()	Ports: 5000/open/tcp//upnp///
+# Nmap done at Tue Apr 12 16:47:12 2022 -- 256 IP addresses (12 hosts up) scanned in 2.85 seconds

@@ -96,11 +96,11 @@ void desligarPainel(){
 }
 
 void imprimirPainel(){
-  Serial.print(BrilhoAtual); Serial.print(" ");
+  Serial.print(BrilhoAtual,3); Serial.print(" ");
   Serial.print(ModoCor); Serial.print(" ");
   Serial.print(ModoBrilho); Serial.print(" ");
   for (byte i = 0; i <= 9; i++){
-    Serial.print(Valor[i]); Serial.print(" ");
+    Serial.print(Valor[i],3); Serial.print(" ");
   }
 }
 
@@ -110,4 +110,3 @@ void CabecalhoPainel(){
   Serial.print("Modo ");
   Serial.print("Branco Full 440 470 495 530 595 634 660 684 ");
 }
-

@@ -4,29 +4,32 @@
 
 Adafruit_PWMServoDriver ServoDriver = Adafruit_PWMServoDriver(0x40);
 
-byte ValorBranco = 0;
-byte ValorFull = 0;
-byte Valor684 = 0;
-byte Valor660 = 0;
-byte Valor634 = 0;
-byte Valor595 = 0;
-byte Valor530 = 0;
-byte Valor495 = 0;
-byte Valor470 = 0;
-byte Valor440 = 0;
-byte ValorSaida = 0;
-byte ValorEntrada = 0;
-byte ValorComp = 0;
-byte ValorAgitador = 0;
-byte ValorVentoinha = 0;
-byte ValorPeltier = 0;
+int ValorBranco = 0;
+int ValorFull = 0;
+int Valor684 = 0;
+int Valor660 = 0;
+int Valor634 = 0;
+int Valor595 = 0;
+int Valor530 = 0;
+int Valor495 = 0;
+int Valor470 = 0;
+int Valor440 = 0;
+int ValorSaida = 0;
+int ValorEntrada = 0;
+int ValorComp = 0;
+int ValorAgitador = 0;
+int ValorVentoinha = 0;
+int ValorPeltier = 0;
 
 float Valor[] = {ValorBranco, ValorFull, Valor440, Valor470, Valor495, Valor530, Valor595, Valor634, Valor660, Valor684, ValorEntrada, ValorSaida, ValorComp, ValorAgitador, ValorVentoinha, ValorPeltier};
 byte Canal[] = {14, 13, 1, 2, 3, 6, 8, 11, 15, 12, 5, 7, 4, 10, 9, 0};
 
 void iniciarServo(){
   ServoDriver.begin();
-  ServoDriver.setPWMFreq(1600);
+  ServoDriver.setPWMFreq(500);
+  for(byte i = 0; i<16; i++){
+    ServoDriver.setPWM(Canal[i],0,0);
+  }
 }
 
 void ajustarMotores(){
@@ -55,12 +58,3 @@ void CabecalhoMotores(){
   Serial.print("Agitador ");
   Serial.print("Ventoinha ");
 }
-
-
-
-// *************** Programa componentes: (isso é usado na diluicao)
-
-byte Motor3pwm=0;
-byte Motor4pwm=0;
-
-
