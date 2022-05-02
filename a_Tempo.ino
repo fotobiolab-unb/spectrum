@@ -17,7 +17,8 @@ unsigned long TempoTranscorrido_0 = 0;
 unsigned long UltimaImpressao = 0;
 int dt = 300;
 
-byte Hora0, Minuto0, Dia0, Mes0, Ano0; // variáveis usadas no ajuste do relógio (via LVP apenas)
+byte Hora0, Minuto0, Dia0, Mes0;        //
+int Ano0;                               // variáveis usadas no ajuste do relógio (via LVP apenas)
 
 void verificarHora(){                                             //
   String ThisMoment;                                              //    Esta função é chamada a cada loop para

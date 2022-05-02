@@ -1,7 +1,7 @@
 float DensidadeDesejada = 999999999; // ***********************
 
 byte ModoDiluicao = 0; // 0: densidade livre; 1: densidade constante
-double DiluicaoMaxima = 20000; // (em ms) ****************** escolher um valor adequado (e atentar para o tipo de variavel) **************
+double DiluicaoMaxima = 10000; // (em ms) ****************** escolher um valor adequado (e atentar para o tipo de variavel) **************
 long DiluicaoTotal = 0;
 byte ValorDiluicao = 60; // ******** escolher ********
 byte DiluicaoManual = 0; // em segundos
@@ -21,13 +21,16 @@ void removerAlgas(long tempo){
 }
 
 void diluir(){
+  int pwm = map(Valor[13],0,100,0,4095);  // Liga o agitador magnético
+  ServoDriver.setPWM(Canal[13],0,pwm);    //
   // IRDesejado = // ajustar f(DensidadeDesejada)
   if ((ModoDiluicao == 1) && (DensidadeAtual > DensidadeDesejada)) {
     pwmDil = map(ValorDiluicao,0,100,0,4095);
     //TempoDiluicao = (DensidadeAtual/DensidadeDesejada - 1) * 310000;             // VolumeDoReator/VazaoDaBombaDeDiluicao = 100mL/(10mL/31s)
     TempoDiluicao = (DensidadeAtual/DensidadeDesejada - 1) * 100000;
     if (TempoDiluicao > DiluicaoMaxima) TempoDiluicao = DiluicaoMaxima;
-    
+    int pwm = map(Valor[12],0,100,0,4095);
+    ServoDriver.setPWM(Canal[12],0,pwm);  
     adicionarMeio(TempoDiluicao); 
     delay(2000);
     ServoDriver.setPWM(Canal[12],0,0);
@@ -43,12 +46,9 @@ void gotoDensity(){
   pararAtuadores();
   medirDensidade();
 
-  int pwm = map(Valor[13],0,100,0,4095);  // Liga o agitador magnético
-  ServoDriver.setPWM(Canal[13],0,pwm);    //
-
   ModoDiluicao = 1;
   
-  while ( (DensidadeAtual > DensidadeDesejada) && (j < 5) ){
+  while ( (DensidadeAtual > DensidadeDesejada) && (j < 10) ){
     diluir();
     delay(3000);
     medirDensidade();

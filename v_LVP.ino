@@ -73,7 +73,7 @@ void iniciarLVP(){
   lvp.addFunction("config", &alterarParametros);
   lvp.addFunction("ping", &ping);
   lvp.addFunction("cabecalho",&imprimirColunas);
-  lvp.addFunction("dados", lerSensores);
+  lvp.addFunction("ler", lerSensores);
 
 //Sensor 2+1
   lvp.addParameter("ganho", &ganhoTSL, ganhoTSL);

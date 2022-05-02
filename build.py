@@ -7,15 +7,13 @@ import re
 from urllib.parse import urljoin
 from pssh.clients import ParallelSSHClient
 from pssh.clients import SSHClient
-from gevent import joinall
-from glob import glob
 
 path = f"{os.getcwd()}/*.ino"
 print(path)
 
-match_level = re.compile(r"level=(.*?)\s")
+match_level = re.compile(r"level=(.*?) ")
 match_time  = re.compile(r"time=\"(.*?)\"")
-match_msg   = re.compile(r"time=\"(.*?)\"")
+match_msg   = re.compile(r"msg=\"(.*?)\"")
 
 def get_servers(net,port="5000"):
     port_scanner = PortScanner()
@@ -34,9 +32,13 @@ def get_servers(net,port="5000"):
             pass
     return servers
 
-def print_log(rows,log):
+def print_log(rows):
     for row in rows:
-        print(f"[{match_level.search(row).group(0)}]",match_msg.search(row).group(0))
+        level = match_level.search(row)
+        level = "NONE" if level is None else level.group(0)
+        msg   = match_msg.search(row)
+        msg   = "NONE" if msg is None else msg.group(0)
+        print(f"[{level}]",msg)
 
 def run(input,clients,servers):
     for i,client in clients.items():

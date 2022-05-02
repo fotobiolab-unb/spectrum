@@ -40,7 +40,7 @@ void calibrarCO2(){
 // ***********************************************************************************************
 
 unsigned long UltimoAjusteCO2 = 0;
-byte dtCO2 = 30;
+byte dtCO2 = 10;
 long CO2count = 0;
 byte ModoCO2 = 0;           // 0: livre; 1: const co2
 int MaxValveDelay = 2000;
