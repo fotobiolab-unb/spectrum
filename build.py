@@ -17,7 +17,7 @@ match_msg   = re.compile(r"msg=\"(.*?)\"")
 
 def get_servers(net,port="5000"):
     port_scanner = PortScanner()
-    results = port_scanner.scan(net,port,"--open",timeout=10)
+    results = port_scanner.scan(net,port,"--open",timeout=30)
     hosts = list(results["scan"].keys())
     servers = []
     for host in hosts:
@@ -67,26 +67,26 @@ if __name__=="__main__":
     print("Copying files")
     for i,client in clients.items():
         print("Copying to",servers.loc[i])
-        os.system(f"sed -i \"s/ID = .*;/ID = {i};/\" Spectrum.ino")
-        densidade = str(densidades.iloc[int(i-1),0])
-        os.system(f"sed -i \"s@/\*#\*/DensidadeAtual = .*;@/\*#\*/DensidadeAtual = {densidade}@\" h_Densidade.ino")
-        client.copy_file(local_file=".",remote_file="/home/pi/Spectrum",recurse=True)
+        os.system(f"sed -i \"s/ID = .*;/ID = {i};/\" Spectrum2.ino")
+        #densidade = str(densidades.iloc[int(i-1),0])
+        #os.system(f"sed -i \"s@/\*#\*/DensidadeAtual = .*;@/\*#\*/DensidadeAtual = {densidade}@\" h_Densidade.ino")
+        client.copy_file(local_file=".",remote_file="/home/pi/Spectrum2",recurse=True)
     
     print("Compiling")
     client = ParallelSSHClient(servers.addr.to_list(),user="pi")
     client.run_command("rm /home/pi/arduino-*.log")
 
     compile_input = f"""\
-        cd /home/pi/Spectrum;\
-        /home/pi/bin/arduino-cli compile --log-file /home/pi/arduino-cli-compile.log --log-level {args.log_level} --fqbn arduino:avr:mega Spectrum;\
+        cd /home/pi/Spectrum2;\
+        /home/pi/bin/arduino-cli compile --log-file /home/pi/arduino-cli-compile.log --log-level {args.log_level} --fqbn arduino:avr:mega Spectrum2;\
         tail /home/pi/arduino-cli-compile.log"""
     compile_cmd = run(compile_input,clients,servers)
     print_log(compile_cmd)
 
     print("Uploading")
     upload_input = f"""\
-        cd /home/pi/Spectrum;\
-        /home/pi/bin/arduino-cli upload --log-file /home/pi/arduino-cli-upload.log --log-level {args.log_level} --fqbn arduino:avr:mega -t -p {servers.loc[i].serial_port} Spectrum;\
+        cd /home/pi/Spectrum2;\
+        /home/pi/bin/arduino-cli upload --log-file /home/pi/arduino-cli-upload.log --log-level {args.log_level} --fqbn arduino:avr:mega -t -p {servers.loc[i].serial_port} Spectrum2;\
         tail /home/pi/arduino-cli-upload.log"""
     upload_cmd = run(upload_input,clients,servers)
     print_log(upload_cmd)

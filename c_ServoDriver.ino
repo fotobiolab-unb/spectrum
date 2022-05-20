@@ -30,6 +30,7 @@ void iniciarServo(){
   for(byte i = 0; i<16; i++){
     ServoDriver.setPWM(Canal[i],0,0);
   }
+  igualarLEDs();
 }
 
 void ajustarMotores(){

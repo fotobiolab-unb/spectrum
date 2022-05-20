@@ -55,4 +55,3 @@ void ajustarRelogio(){              // Esta função pode ser chamada (via LVP) 
   RTC.setTime(Hora0, Minuto0, 0);   // Define o horario (hh, mm, ss)
   RTC.setDate(Dia0, Mes0, Ano0);    // Define o dia, mes e ano (dd, mm, aaaa)
 }
-

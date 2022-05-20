@@ -13,6 +13,95 @@ byte ModoBrilho = 0;   // 0: fixo; 1: dia/noite; 2: senoidal (com a hora); 3: li
 byte BomDia = 6;      // Variáveis usadas apenas no modo 2, alteráveis apenas via LVP, 
 byte BoaNoite = 18;   // representam a hora do amanhecer e anoitecer
 
+int limite[10];
+
+void igualarLEDs(){
+  if (ID == 1){
+    limite[0] = 3886;
+    limite[1] = 3889;
+    limite[2] = 3266;
+    limite[3] = 3623;
+    limite[4] = 3630;
+    limite[5] = 3917;
+    limite[6] = 3914;
+    limite[7] = 3203;
+    limite[8] = 3497;
+    limite[9] = 3939;
+  }
+  if (ID == 2){
+    limite[0] = 4088;
+    limite[1] = 3968;
+    limite[2] = 4048;
+    limite[3] = 3879;
+    limite[4] = 3619;
+    limite[5] = 3849;
+    limite[6] = 3900;
+    limite[7] = 3093;
+    limite[8] = 3532;
+    limite[9] = 3842;
+  }
+  if (ID == 3){
+    limite[0] = 3612;
+    limite[1] = 4043;
+    limite[2] = 4028;
+    limite[3] = 4001;
+    limite[4] = 3821;
+    limite[5] = 4017;
+    limite[6] = 3741;
+    limite[7] = 3345;
+    limite[8] = 3558;
+    limite[9] = 4084;
+  }
+  if (ID == 4){
+    limite[0] = 3753;
+    limite[1] = 3967;
+    limite[2] = 4009;
+    limite[3] = 4080;
+    limite[4] = 4079;
+    limite[5] = 4085;
+    limite[6] = 4082;
+    limite[7] = 4080;
+    limite[8] = 4091;
+    limite[9] = 3953;
+  }
+  if (ID == 5){
+    limite[0] = 3728;
+    limite[1] = 4033;
+    limite[2] = 3747;
+    limite[3] = 3877;
+    limite[4] = 3516;
+    limite[5] = 3876;
+    limite[6] = 3647;
+    limite[7] = 3352;
+    limite[8] = 3248;
+    limite[9] = 3969;
+  }
+  if (ID == 6){
+    limite[0] = 3644;
+    limite[1] = 3809;
+    limite[2] = 3603;
+    limite[3] = 4021;
+    limite[4] = 3513;
+    limite[5] = 3847;
+    limite[6] = 3703;
+    limite[7] = 3283;
+    limite[8] = 3663;
+    limite[9] = 3757;
+  }
+  if (ID == 7){
+    limite[0] = 3565;
+    limite[1] = 4091;
+    limite[2] = 3716;
+    limite[3] = 3794;
+    limite[4] = 3405;
+    limite[5] = 3695;
+    limite[6] = 3672;
+    limite[7] = 3117;
+    limite[8] = 3792;
+    limite[9] = 3970;
+  }
+}
+
 unsigned long UltimaMudancaPainel = 0;
 long PeriodoPainel = 43200; // (em segundos)
 float IncrementoBrilho = 0; // tamanho do degrau no modo step
@@ -84,7 +173,7 @@ void ajustarPainel(){
   int pwm;
   for (byte i = 0; i <=9; i++){
     Valor[i] = MaximoPainel[i]*BrilhoAtual/100;
-    pwm = map(Valor[i],0,100,0,4095);
+    pwm = map(Valor[i],0,100,0,limite[i]);
     ServoDriver.setPWM(Canal[i],0,pwm); 
   }
 }

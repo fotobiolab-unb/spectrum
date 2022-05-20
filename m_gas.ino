@@ -64,7 +64,7 @@ void ajustarCO2(){
   if ( (ModoCO2 == 1) && ((TempoTranscorrido - UltimoAjusteCO2) >= dtCO2) ) {
     lerGas();
     if ( (CO2 < SetCO2) && (CO2 > 0) ) {
-      ValveDelay = (SetCO2 - CO2)*0.4 + 10;                          // conferir estes parâmetros
+      ValveDelay = (SetCO2 - CO2)*0.2 + 0;                          // conferir estes parâmetros
       if (ValveDelay > MaxValveDelay) ValveDelay = MaxValveDelay;
       CO2On();                                                 
       delay(ValveDelay);
@@ -99,6 +99,3 @@ void CabecalhoGas(){
   Serial.print("SetCO2 ");
   Serial.print("CO2count ");
 }
-
-
-
