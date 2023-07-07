@@ -1,5 +1,6 @@
 // **************************************************** LVP *********************************************
-#include <LVP.h>
+//#include <LVP.h>
+#include <LVPeot.h>
 
 const word baudRate = 9600;
 const byte numEditableData = 60;
@@ -106,6 +107,3 @@ void iniciarLVP(){
 void serialEvent(){ 
   lvp.getNewCommand();
 } 
-
-
-
