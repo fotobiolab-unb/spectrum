@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Make sure to export the environment variable GH_TOKEN with a valid GitHub token before running this script."
+
 # Base image setup
 echo "Setting up base image..."
 export DEBIAN_FRONTEND=noninteractive
@@ -14,10 +16,6 @@ curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.
 # Update library index
 echo "Updating library index..."
 arduino-cli lib update-index -v
-
-# Login to GitHub
-echo "Logging in to GitHub..."
-gh auth login --with-token < .token
 
 # Install libraries
 echo "Installing libraries..."
