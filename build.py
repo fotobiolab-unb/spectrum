@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 import os
 import re
+
 from urllib.parse import urljoin
 from pssh.clients import ParallelSSHClient
 from pssh.clients import SSHClient
