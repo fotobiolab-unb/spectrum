@@ -4,7 +4,7 @@
   become: yes
   gather_facts: yes
   environment:
-      GH_TOKEN:your_token_here
+    GH_TOKEN: your_token_here
 
   tasks:
     - name: Ensure required packages are installed
@@ -12,15 +12,13 @@
         name: "{{ item }}"
         state: present
       loop:
-        - curl
         - git
         - unzip
       when: ansible_os_family == 'Debian'
 
     - name: Install Arduino CLI
       shell: >
-        curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh |
-        BINDIR=/usr/local/bin sh
+        BINDIR=/usr/local/bin sh -c "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh"
       environment:
         DEBIAN_FRONTEND: noninteractive
       when: ansible_os_family == 'Debian'
@@ -30,24 +28,30 @@
       when: ansible_os_family == 'Debian'
 
     - name: Download and install libraries
-      shell: >
-        arduino_home=$(arduino-cli config dump | grep 'user:' | awk '{print $2}');
-        gh release download v0 --archive=zip --repo fotobiolab-unb/arduino-libraries;
-        mv arduino-libraries-0.zip libraries.zip;
-        unzip libraries.zip -d $arduino_home;
-        rm libraries.zip;
-        mv $arduino_home/arduino-libraries-0 $arduino_home/arduino-libraries
-      environment:
-        GH_TOKEN: "{{ lookup('env', 'GH_TOKEN') }}"
+      get_url:
+        url: "https://github.com/fotobiolab-unb/arduino-libraries/archive/v0.zip"
+        dest: "/tmp/libraries.zip"
+        headers:
+          Authorization: "token {{ GH_TOKEN }}"
+      when: ansible_os_family == 'Debian'
+
+    - name: Extract and move libraries
+      unarchive:
+        src: "/tmp/libraries.zip"
+        dest: "{{ lookup('env', 'HOME') }}/arduino-libraries"
       when: ansible_os_family == 'Debian'
 
     - name: Download source code
-      shell: >
-        gh release download v0 --archive=zip --repo fotobiolab-unb/spectrum;
-        mv spectrum-0.zip spectrum.zip;
-        unzip spectrum.zip -d $HOME;
-        rm spectrum.zip;
-        mv $HOME/spectrum-0 $HOME/spectrum
+      get_url:
+        url: "https://github.com/fotobiolab-unb/spectrum/archive/v0.zip"
+        dest: "/tmp/spectrum.zip"
+        headers:
+          Authorization: "token {{ GH_TOKEN }}"
+
+    - name: Extract and move source code
+      unarchive:
+        src: "/tmp/spectrum.zip"
+        dest: "{{ lookup('env', 'HOME') }}"
       environment:
         GH_TOKEN: "{{ lookup('env', 'GH_TOKEN') }}"
 
