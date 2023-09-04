@@ -4,7 +4,7 @@
   become: yes
   gather_facts: yes
   environment:
-      GH_TOKEN=your_token_here
+      GH_TOKEN:your_token_here
 
   tasks:
     - name: Ensure required packages are installed
