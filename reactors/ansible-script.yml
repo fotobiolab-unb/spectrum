@@ -18,16 +18,37 @@
         - unzip
       when: ansible_os_family == 'Debian'
 
-    - name: Install Arduino CLI
-      shell: >
-        BINDIR=/usr/local/bin sh -c "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh"
-      environment:
-        DEBIAN_FRONTEND: noninteractive
-      when: ansible_os_family == 'Debian'
+    - name: Arduino CLI Ops
+      block:
 
-    - name: Update Arduino library index
-      command: arduino-cli lib update-index -v
-      when: ansible_os_family == 'Debian'
+      - name: Install Arduino CLI
+        shell: >
+          BINDIR=/usr/local/bin sh -c "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh"
+        environment:
+          DEBIAN_FRONTEND: noninteractive
+        when: ansible_os_family == 'Debian'
+
+      - name: Update Arduino library index
+        command: arduino-cli lib update-index -v
+        when: ansible_os_family == 'Debian'
+
+      - name: Generate default config
+        command: arduino-cli config init --overwrite
+
+      - name: Allow unsafe installs
+        command: arduino-cli config set library.enable_unsafe_install true
+
+      - name: Get library location
+        command: arduino-cli config dump --format json
+        register: arduino_cli_config
+
+      - name: Parse library location
+        set_fact:
+          arduino_lib_path: "{{ arduino_cli_config }}"
+        when: arduino_cli_config is mapping
+
+      - name: Install arduino:avr board
+        command: arduino-cli core install arduino:avr
 
     - name: Download and install libraries
       get_url:
@@ -43,7 +64,8 @@
       - name: Delete library folder if exists
         file:
           state: absent
-          path: /home/pi/arduino-libraries
+          #path: /home/pi/arduino-libraries
+          path: "{{ arduino-lib-path.staging }}/libraries"
 
       - name: Extract and move libraries
         unarchive:
@@ -53,11 +75,11 @@
         when: ansible_os_family == 'Debian'
 
       - name: Renaming Library folder
-        command: mv -f /home/pi/arduino-libraries-0 /home/pi/arduino-libraries
+        command: mv -f /home/pi/arduino-libraries-0 {{ arduino-lib-path.staging }}/libraries
 
     - name: Download source code
       get_url:
-        url: "https://github.com/fotobiolab-unb/spectrum/archive/v0.zip"
+        url: "https://github.com/fotobiolab-unb/spectrum/archive/v0.1.zip"
         dest: "/home/pi/spectrum.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
@@ -77,9 +99,9 @@
           dest: "/home/pi"
 
       - name: Renaming Source folder
-        command: mv -f /home/pi/spectrum-0 /home/pi/spectrum
+        command: mv -f /home/pi/spectrum-0.1 /home/pi/spectrum
 
-    - name: Build image
-      shell: >
-        arduino-cli compile -b arduino:avr:mega /home/pi/spectrum/src;
-        arduino-cli upload -t -b arduino:avr:mega -p "$(arduino-cli board list | grep 'USB' | awk '{print $1}')" /home/pi/spectrum/src
+      - name: Build image
+        shell: >
+          arduino-cli compile -b arduino:avr:mega /home/pi/spectrum/Spectrum;
+          arduino-cli upload -t -b arduino:avr:mega -p "$(arduino-cli board list | grep 'USB' | awk '{print $1}')" /home/pi/spectrum/Spectrum
