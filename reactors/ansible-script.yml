@@ -32,34 +32,54 @@
     - name: Download and install libraries
       get_url:
         url: "https://github.com/fotobiolab-unb/arduino-libraries/archive/v0.zip"
-        dest: "/tmp/libraries.zip"
+        dest: "/home/pi/libraries.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
       when: ansible_os_family == 'Debian'
 
-    - name: Extract and move libraries
-      unarchive:
-        src: "/tmp/libraries.zip"
-        dest: "{{ lookup('env', 'HOME') }}/arduino-libraries"
-      when: ansible_os_family == 'Debian'
+    - name: Prepare library folder
+      block:
+
+      - name: Delete library folder if exists
+        file:
+          state: absent
+          path: /home/pi/arduino-libraries
+
+      - name: Extract and move libraries
+        unarchive:
+          remote_src: yes
+          src: "/home/pi/libraries.zip"
+          dest: "/home/pi"
+        when: ansible_os_family == 'Debian'
+
+      - name: Renaming Library folder
+        command: mv -f /home/pi/arduino-libraries-0 /home/pi/arduino-libraries
 
     - name: Download source code
       get_url:
         url: "https://github.com/fotobiolab-unb/spectrum/archive/v0.zip"
-        dest: "/tmp/spectrum.zip"
+        dest: "/home/pi/spectrum.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
 
-    - name: Extract and move source code
-      unarchive:
-        src: "/tmp/spectrum.zip"
-        dest: "{{ lookup('env', 'HOME') }}"
-      environment:
-        GH_TOKEN: "{{ lookup('env', 'GH_TOKEN') }}"
+    - name: Prepare Spectrum folder
+      block:
+
+      - name: Remove Spectrum folder if exists
+        file:
+          state: absent
+          path: /home/pi/spectrum
+
+      - name: Extract and move source code
+        unarchive:
+          remote_src: yes
+          src: "/home/pi/spectrum.zip"
+          dest: "/home/pi"
+
+      - name: Renaming Source folder
+        command: mv -f /home/pi/spectrum-0 /home/pi/spectrum
 
     - name: Build image
       shell: >
-        arduino-cli compile -b arduino:avr:mega $HOME/spectrum/src;
-        arduino-cli upload -t -b arduino:avr:mega -p "$(arduino-cli board list | grep 'USB' | awk '{print $1}')" $HOME/spectrum/src
-      environment:
-        GH_TOKEN: "{{ lookup('env', 'GH_TOKEN') }}"
+        arduino-cli compile -b arduino:avr:mega /home/pi/spectrum/src;
+        arduino-cli upload -t -b arduino:avr:mega -p "$(arduino-cli board list | grep 'USB' | awk '{print $1}')" /home/pi/spectrum/src
