@@ -7,6 +7,9 @@
     - name: "GH_TOKEN"
       prompt: "GitHub Token"
       private: true
+  vars:
+    library_version: 0.4
+    spectrum_version: 0.1
 
   tasks:
     - name: Ensure required packages are installed
@@ -52,7 +55,7 @@
 
     - name: Download and install libraries
       get_url:
-        url: "https://github.com/fotobiolab-unb/arduino-libraries/archive/v0.1.zip"
+        url: "https://github.com/fotobiolab-unb/arduino-libraries/archive/v{{ library_version }}.zip"
         dest: "/home/pi/libraries.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
@@ -74,7 +77,7 @@
         when: ansible_os_family == 'Debian'
 
       - name: Renaming Library folder
-        command: mv -f /home/pi/arduino-libraries-0.1 /home/pi/arduino-libraries
+        command: mv -f /home/pi/arduino-libraries-{{ library_version }} /home/pi/arduino-libraries
 
       - name: Installing Zips
         shell: >
@@ -85,7 +88,7 @@
 
     - name: Download source code
       get_url:
-        url: "https://github.com/fotobiolab-unb/spectrum/archive/v0.1.zip"
+        url: "https://github.com/fotobiolab-unb/spectrum/archive/v{{ spectrum_version }}.zip"
         dest: "/home/pi/spectrum.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
@@ -105,7 +108,7 @@
           dest: "/home/pi"
 
       - name: Renaming Source folder
-        command: mv -f /home/pi/spectrum-0.1 /home/pi/spectrum
+        command: mv -f /home/pi/spectrum-{{ spectrum_version }} /home/pi/spectrum
 
       - name: Build image
         shell: >
