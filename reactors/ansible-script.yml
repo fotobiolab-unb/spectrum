@@ -8,8 +8,8 @@
       prompt: "GitHub Token"
       private: true
   vars:
-    library_version: 0.4
-    spectrum_version: 0.1
+    library_version: main
+    spectrum_version: master
 
   tasks:
     - name: Ensure required packages are installed
@@ -55,7 +55,7 @@
 
     - name: Download and install libraries
       get_url:
-        url: "https://github.com/fotobiolab-unb/arduino-libraries/archive/v{{ library_version }}.zip"
+        url: "https://github.com/fotobiolab-unb/arduino-libraries/archive/{{ library_version }}.zip"
         dest: "/home/pi/libraries.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
@@ -88,7 +88,7 @@
 
     - name: Download source code
       get_url:
-        url: "https://github.com/fotobiolab-unb/spectrum/archive/v{{ spectrum_version }}.zip"
+        url: "https://github.com/fotobiolab-unb/spectrum/archive/{{ spectrum_version }}.zip"
         dest: "/home/pi/spectrum.zip"
         headers:
           Authorization: "token {{ GH_TOKEN }}"
