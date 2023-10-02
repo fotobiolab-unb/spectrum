@@ -90,8 +90,10 @@ void iniciarSensor(){
   digitalWrite(BluePin, LOW);
   digitalWrite(IRPin, LOW);  
 
+  /*
   if(tsl.begin())Serial.println("TSL ok");
   else Serial.println("ERRO no TSL ");
+  */
   configurarSensor();
 }
 
